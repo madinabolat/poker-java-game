@@ -1,11 +1,17 @@
 package org.example;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+import Deck.Card;
+import Deck.Rank;
+import Deck.Suit;
+
 public class Main {
     public static void main(String[] args) {
-        Card card = new Card("TWO", "HEARTS");
-        //how to pass string to enum?
+        Card card1 = new Card(Rank.TWO, Suit.CLUBS);
+        Card card2 = new Card(Rank.TWO, Suit.CLUBS);
+        System.out.println(card1);
+        System.out.println(card2);
+        System.out.println(card1==card2);
+        System.out.println(card1==card1);
 
     }
 }
