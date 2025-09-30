@@ -6,9 +6,10 @@ import java.util.ArrayList;
 
 public class Player {
     String name;
-    private ArrayList<Card> holeCards;
+    public ArrayList<Card> holeCards; //make this private
 
     public Player (String name){
         this.name = name;
+        holeCards = new ArrayList<Card>();
     }
 }

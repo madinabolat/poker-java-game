@@ -20,6 +20,9 @@ public class Deck {
         }
     }
 
+
+
+    //will remove later
     public void displayDeck(){
         for (Card card : deck){
             System.out.println("Card: " + card.rank + ", " + card.suit);

@@ -5,18 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6a229d17-a586-4a5e-8985-626de1ccd0ae" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/PokerApp.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/deck/Card.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/deck/Deck.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/game/PokerHand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/player/Player.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/game/HandEvaluator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Deck/Card.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Deck/Deck.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Deck/Rank.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/deck/Rank.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Deck/Suit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/deck/Suit.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/PokerApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/PokerApp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/deck/Deck.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/deck/Deck.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/game/PokerHand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/game/PokerHand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/player/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/player/Player.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,6 +39,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Application.Main.executor": "Run",
+    "Application.PokerApp.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "main",
