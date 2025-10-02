@@ -8,14 +8,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 
-public class PokerHand {
+public class Dealer {
     Player playerOne;
     Player playerTwo;
     public Deck deck;
     public ArrayList<Card> gameDeck; //make private
     private ArrayList<Card> communityCards;
 
-    public PokerHand(){
+    public Dealer(){
         playerOne = new Player("player one"); //todo: initialize players properly (get names from scanner)
         playerTwo = new Player("player two");
         deck = new Deck(); // should I initialize this way?
