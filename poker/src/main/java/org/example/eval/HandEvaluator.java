@@ -8,6 +8,19 @@ public class HandEvaluator {
 
     }
 
+    public Card[] determineBestFive(Card[] handCombination){
+        if (handCombination.length != 7 || handCombination == null){
+            System.out.println("not valid input"); //todo: add exception
+        }
+        //community (5 cards) + 2 hole cards
+        //pick best 5
+        //all possible combinations of 5 cards
+        //determine each rank?
+        //find best?
+
+        return handCombination; //placeholder
+    }
+
     public HandRank determineRank(Card[] handCombination){
         if (handCombination.length != 5 || handCombination == null){
             System.out.println("not valid input"); //todo: add exception
