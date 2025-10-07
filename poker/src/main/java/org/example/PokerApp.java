@@ -10,6 +10,6 @@ public class PokerApp {
 
         Dealer pokerHand = new Dealer();
         pokerHand.dealHands();
-        pokerHand.displayCommCards();
+        pokerHand.displayCommunityCards();
     }
 }

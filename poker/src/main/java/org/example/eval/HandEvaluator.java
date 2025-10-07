@@ -21,7 +21,7 @@ public class HandEvaluator {
         return handCombination; //placeholder
     }
 
-    public HandRank determineRank(Card[] handCombination){
+    public HandRank determineRank(Card[] handCombination){ //should i give as array? or arraylist?
         if (handCombination.length != 5 || handCombination == null){
             System.out.println("not valid input"); //todo: add exception
         }
@@ -33,11 +33,15 @@ public class HandEvaluator {
         //brute force is just handCombination[0].suit == handCombination[1].suit == ...
         //                    handCombination[0].rank == HandRank.ACE, ... -> assuming the handCombination comes sorted by rank?
 
+        //get all ranks
+        //get all suits
+        //sort by rank
+        //identify how many cards of each suit
+        //based on rules identify if matches hand rank
+
+
+
         return HandRank.HIGH_CARD;
     }
 
 }
-
-//best five
-//give a rank
-//compare ranks

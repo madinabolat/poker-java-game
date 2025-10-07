@@ -64,7 +64,7 @@ public class Dealer {
         iterator.remove();
     }
 
-    public void displayCommCards(){
+    public void displayCommunityCards(){
         System.out.println("Community Cards");
         for (Card card : communityCards){
             System.out.println("Card: " + card.rank + ", " + card.suit);
