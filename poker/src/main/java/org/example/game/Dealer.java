@@ -9,9 +9,9 @@ import java.util.Collections;
 import java.util.Iterator;
 
 public class Dealer {
-    Player playerOne;
+    Player playerOne; //to-think: if i want to have more players, do I just add here? or is there a better way?
     Player playerTwo;
-    private Deck gameDeck;
+    private Deck gameDeck = new Deck();
     private ArrayList<Card> communityCards;
 
     public Dealer(){
@@ -20,8 +20,16 @@ public class Dealer {
         communityCards = new ArrayList<Card>();
     }
 
-    public void dealCommunityCards(){
+    public ArrayList<Card> getCommunityCards() {
+        return communityCards;
+    }
 
+    public void dealCommunityCards(Iterator<Card> iterator, int count){
+        for (int i = 0; i<count; i++){
+            communityCards.add(iterator.next());
+            iterator.remove();
+        }
+        burnCard(iterator);
     }
 
     public void burnCard(Iterator<Card> iterator){
@@ -29,42 +37,30 @@ public class Dealer {
         iterator.remove();
     }
 
+    public void dealPlayerCards(Iterator<Card> iterator, int count){
+        //todo: make it so that any number of players could be passed
+        for (int i = 0; i<count; i++){
+            playerOne.getHoleCards().add(iterator.next());
+            iterator.remove();
+            playerTwo.getHoleCards().add(iterator.next());
+            iterator.remove();
+        }
+        burnCard(iterator);
+    }
+
     public void dealHands(){
         gameDeck.shuffle();
 
-        Iterator<Card> iterator = gameDeck.iterator();
+        Iterator<Card> iterator = gameDeck.deck.iterator();
 
-        //add proper methods for all below to reuse code
-        //deal player cards
-        for (int i = 0; i<2; i++){
-            playerOne.holeCards.add(iterator.next());
-            iterator.remove();
-            playerTwo.holeCards.add(iterator.next());
-            iterator.remove();
-        }
+        dealPlayerCards(iterator, 2);
 
-        //burn one card
-        iterator.next();
-        iterator.remove();
+        dealCommunityCards(iterator, 3);
 
-        //deal community cards
-        for (int i = 0; i<3; i++){
-            communityCards.add(iterator.next());
-        }
+        dealCommunityCards(iterator, 1);
 
-        //burn one card
-        iterator.next();
-        iterator.remove();
+        dealCommunityCards(iterator, 1);
 
-        communityCards.add(iterator.next());
-        iterator.remove();
-
-        //burn one card
-        iterator.next();
-        iterator.remove();
-
-        communityCards.add(iterator.next());
-        iterator.remove();
     }
 
     public void displayCommunityCards(){
@@ -75,13 +71,13 @@ public class Dealer {
 
         System.out.println("Player one cards");
 
-        for (Card card : playerOne.holeCards){
+        for (Card card : playerOne.getHoleCards()){
             System.out.println("Card: " + card.rank + ", " + card.suit);
         }
 
         System.out.println("Player two cards");
 
-        for (Card card : playerTwo.holeCards){
+        for (Card card : playerTwo.getHoleCards()){
             System.out.println("Card: " + card.rank + ", " + card.suit);
         }
     }

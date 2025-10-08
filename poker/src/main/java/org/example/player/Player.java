@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Player {
     String name;
-    private ArrayList<Card> holeCards = new ArrayList<Card>(); //this will ensure holeCards are automaticallu created when calling new Player()
+    private ArrayList<Card> holeCards = new ArrayList<Card>();
 
     public Player (String name){
         this.name = name;
