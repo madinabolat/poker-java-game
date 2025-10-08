@@ -11,23 +11,26 @@ import java.util.Iterator;
 public class Dealer {
     Player playerOne;
     Player playerTwo;
-    public Deck deck;
-    public ArrayList<Card> gameDeck; //make private
+    private Deck gameDeck;
     private ArrayList<Card> communityCards;
 
     public Dealer(){
         playerOne = new Player("player one"); //todo: initialize players properly (get names from scanner)
         playerTwo = new Player("player two");
-        deck = new Deck(); // should I initialize this way?
-        gameDeck = new ArrayList<>();
-        gameDeck = deck.deck; //is it right to create gameDeck this way?
         communityCards = new ArrayList<Card>();
     }
 
+    public void dealCommunityCards(){
+
+    }
+
+    public void burnCard(Iterator<Card> iterator){
+        iterator.next();
+        iterator.remove();
+    }
+
     public void dealHands(){
-
-
-        Collections.shuffle(gameDeck);
+        gameDeck.shuffle();
 
         Iterator<Card> iterator = gameDeck.iterator();
 

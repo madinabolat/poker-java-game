@@ -1,6 +1,7 @@
 package org.example.deck;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Deck {
     public Suit[] suits;
@@ -20,13 +21,13 @@ public class Deck {
         }
     }
 
+    public void shuffle(){
+        Collections.shuffle(deck);
+    }
 
-
-    //will remove later
-    public void displayDeck(){
+    public void display(){
         for (Card card : deck){
             System.out.println("Card: " + card.rank + ", " + card.suit);
         }
     }
-
 }
