@@ -1,6 +1,7 @@
 package org.example.eval;
 
 import org.example.deck.Card;
+import org.example.deck.Suit;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -26,14 +27,14 @@ public class HandEvaluator {
     }
 
     public HandRank determineRank(ArrayList<Card> handCombination){
-        HashSet<Card> uniqueSuits = new HashSet<Card>();
+        HashSet<Suit> uniqueSuits = new HashSet<Suit>();
 
         if (handCombination.size() != 5 || handCombination == null){
             System.out.println("not valid input"); //todo: add exception
         }
 
         for (Card card : handCombination){
-            uniqueSuits.add(card);
+            uniqueSuits.add(card.suit);
         }
 
         if (uniqueSuits.size() == 1){
@@ -42,6 +43,10 @@ public class HandEvaluator {
 
         //if in a sequence -> STRAIGHT_FLUSH
 
+        //next step:
+        //need a hashmap - (rank, number of instances of this rank)
+        //also need to sort
+        
 //        ROYAL_FLUSH, // A-K-Q-J-10, all the same suit
 //                FOUR_OF_A_KIND, //four cards of the same rank. Ex.: 9-9-9-9 + card.
 //                FULL_HOUSE, //three of a kind + a pair. Ex.: 5-5-5 + 8-8.
