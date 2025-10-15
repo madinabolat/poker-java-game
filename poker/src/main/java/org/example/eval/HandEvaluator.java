@@ -1,10 +1,12 @@
 package org.example.eval;
 
 import org.example.deck.Card;
+import org.example.deck.Rank;
 import org.example.deck.Suit;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 
 public class HandEvaluator {
@@ -28,18 +30,31 @@ public class HandEvaluator {
 
     public HandRank determineRank(ArrayList<Card> handCombination){
         HashSet<Suit> uniqueSuits = new HashSet<Suit>();
+        HashMap<Rank, Integer> ranks = new HashMap<>();
 
         if (handCombination.size() != 5 || handCombination == null){
             System.out.println("not valid input"); //todo: add exception
         }
 
+        //I didnt fully understand how this sort works - go through
+        handCombination.sort(Comparator.comparing(Card::getRank));
+
         for (Card card : handCombination){
             uniqueSuits.add(card.suit);
+            if (ranks.containsKey(card.rank)){
+                ranks.put(card.rank, ranks.get(card.rank)+1);
+            }
+            else {
+                ranks.put(card.rank, 1);
+            }
+
         }
 
         if (uniqueSuits.size() == 1){
             return HandRank.FLUSH;
         }
+
+
 
         //if in a sequence -> STRAIGHT_FLUSH
 
@@ -61,7 +76,7 @@ public class HandEvaluator {
         //add logic on uniqueSuits implications. if only one unique rank -> certain hands will apply
         //if not go on with rank
         //sort based on rank
-        handCombination.sort(Comparator.comparing(Card::getRank));
+
         //check hand combinations based on rank alone
         //if not go on with rank + suit? or there are diff combinations based on suit unique set or ranks
 
