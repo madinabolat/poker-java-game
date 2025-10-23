@@ -2,6 +2,8 @@ package org.example.game;
 
 import org.example.deck.Card;
 import org.example.deck.Deck;
+import org.example.eval.HandEvaluator;
+import org.example.eval.HandRank;
 import org.example.player.Player;
 
 import java.util.ArrayList;
@@ -80,5 +82,22 @@ public class Dealer {
         for (Card card : playerTwo.getHoleCards()){
             System.out.println("Card: " + card.rank + ", " + card.suit);
         }
+    }
+
+    //does this method belong here?
+    public String determineWinner(){
+        HandEvaluator handEvaluator = new HandEvaluator();
+        ArrayList<Card> playerOneBestFive = handEvaluator.determineBestFive(communityCards, playerOne.getHoleCards());
+        ArrayList<Card> playerTwoBestFive = handEvaluator.determineBestFive(communityCards, playerOne.getHoleCards());
+        HandRank playerOneRank = handEvaluator.determineRank(playerOneBestFive);
+        HandRank playerTwoRank = handEvaluator.determineRank(playerTwoBestFive);
+        if (handEvaluator.determineRankOrdinal(playerOneRank) < handEvaluator.determineRankOrdinal(playerTwoRank)){
+            return "PLayer One won!";
+        } else if (handEvaluator.determineRankOrdinal(playerOneRank) > handEvaluator.determineRankOrdinal(playerTwoRank)){
+            return "Player Two won!";
+        } else {
+            return "It is a tie!";
+        }
+
     }
 }
