@@ -17,12 +17,20 @@ public class HandEvaluator {
 
     public ArrayList<Card> determineBestFive(ArrayList<Card> communityCards, ArrayList<Card> playerHoleCards){
         ArrayList<Card> handCombination = new ArrayList<>();
-        ArrayList<Card> bestFive = new ArrayList<>();
         handCombination.addAll(communityCards);
         handCombination.addAll(playerHoleCards);
 
-        return bestFive;
+        
+
+        return null;
     }
+
+    public ArrayList<Card> helperSubsets(ArrayList<Card> Cards, int n, int k){
+        if (k==n) return helperSubsets(Cards, n, k);
+        return helperSubsets(Cards, n, k-1)
+    }
+
+
 
     public HandRank determineRank(ArrayList<Card> handCombination){
         HashSet<Suit> uniqueSuits = new HashSet<Suit>();
