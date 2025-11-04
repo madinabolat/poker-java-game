@@ -87,13 +87,12 @@ public class Dealer {
     //does this method belong here?
     public String determineWinner(){
         HandEvaluator handEvaluator = new HandEvaluator();
-        ArrayList<Card> playerOneBestFive = handEvaluator.determineBestFive(communityCards, playerOne.getHoleCards());
-        ArrayList<Card> playerTwoBestFive = handEvaluator.determineBestFive(communityCards, playerOne.getHoleCards());
-        HandRank playerOneRank = handEvaluator.determineRank(playerOneBestFive);
-        HandRank playerTwoRank = handEvaluator.determineRank(playerTwoBestFive);
-        if (handEvaluator.determineRankOrdinal(playerOneRank) < handEvaluator.determineRankOrdinal(playerTwoRank)){
+        int playerOneBestRank = handEvaluator.determineBestRank(communityCards, playerOne.getHoleCards());
+        int playerTwoBestRank = handEvaluator.determineBestRank(communityCards, playerOne.getHoleCards());
+
+        if (playerOneBestRank < playerTwoBestRank){
             return "PLayer One won!";
-        } else if (handEvaluator.determineRankOrdinal(playerOneRank) > handEvaluator.determineRankOrdinal(playerTwoRank)){
+        } else if (playerOneBestRank > playerTwoBestRank){
             return "Player Two won!";
         } else {
             return "It is a tie!";

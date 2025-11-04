@@ -15,19 +15,47 @@ public class HandEvaluator {
 
     }
 
-    public ArrayList<Card> determineBestFive(ArrayList<Card> communityCards, ArrayList<Card> playerHoleCards){
+    public int determineBestRank(ArrayList<Card> communityCards, ArrayList<Card> playerHoleCards){
         ArrayList<Card> handCombination = new ArrayList<>();
         handCombination.addAll(communityCards);
         handCombination.addAll(playerHoleCards);
+        ArrayList<ArrayList<Card>> allPossibleHandCombinations = new ArrayList<>();
+        allPossibleHandCombinations = generateKCardCombinations(handCombination,5);
 
-        
+        int handRank = 9; //the lower the better
 
-        return null;
+        for (ArrayList<Card> combination : allPossibleHandCombinations){
+            handRank = Math.min(determineRankOrdinal(determineRank(combination)),handRank);
+        }
+
+        return handRank;
     }
 
-    public ArrayList<Card> helperSubsets(ArrayList<Card> Cards, int n, int k){
-        if (k==n) return helperSubsets(Cards, n, k);
-        return helperSubsets(Cards, n, k-1)
+    public ArrayList<ArrayList<Card>> generateKCardCombinations(ArrayList<Card> cards, int k){
+        ArrayList<ArrayList<Card>> finalSubsets = new ArrayList<>();
+        if (k == 0) return null; //empty set?
+        if (k > cards.size()) return null;
+        if (k == 1){
+            for (Card card : cards){
+                ArrayList<Card> singletonSubset = new ArrayList<>();
+                singletonSubset.add(card);
+                finalSubsets.add(singletonSubset);
+            }
+            return finalSubsets;
+        }
+        ArrayList<ArrayList<Card>> intermediateSubsets = new ArrayList<>();
+        intermediateSubsets = generateKCardCombinations(cards,k-1);
+        for (ArrayList<Card> subset : intermediateSubsets){
+            for (Card card : cards){
+                if (intermediateSubsets.contains(card)) {
+                    continue;
+                } else{
+                    subset.add(card);
+                    finalSubsets.add(subset);
+                }
+            }
+        }
+        return finalSubsets;
     }
 
 
@@ -36,9 +64,9 @@ public class HandEvaluator {
         HashSet<Suit> uniqueSuits = new HashSet<Suit>();
         HashMap<Rank, Integer> rankCounts = new HashMap<>();
 
-        if (handCombination.size() != 5 || handCombination == null){
-            System.out.println("not valid input"); //todo: add exception
-        }
+//        if (handCombination.size() != 5 || handCombination == null){
+//            System.out.println("not valid input"); //todo: add exception
+//        }
 
         //I didnt fully understand how this sort works - go through
         handCombination.sort(Comparator.comparing(Card::getRank));
