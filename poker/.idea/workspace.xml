@@ -7,6 +7,8 @@
     <list default="true" id="6a229d17-a586-4a5e-8985-626de1ccd0ae" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/PokerApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/PokerApp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/eval/HandEvaluator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/eval/HandEvaluator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/game/Dealer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/game/Dealer.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -82,7 +84,17 @@
           <line>28</line>
           <option name="timeStamp" value="4" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/example/PokerApp.java</url>
+          <line>34</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+    <watches-manager>
+      <configuration name="Application">
+        <watch expression="intermediateSubsets.get(1)" />
+      </configuration>
+    </watches-manager>
   </component>
 </project>

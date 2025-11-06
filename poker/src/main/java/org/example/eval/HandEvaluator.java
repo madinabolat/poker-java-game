@@ -19,8 +19,7 @@ public class HandEvaluator {
         ArrayList<Card> handCombination = new ArrayList<>();
         handCombination.addAll(communityCards);
         handCombination.addAll(playerHoleCards);
-        ArrayList<ArrayList<Card>> allPossibleHandCombinations = new ArrayList<>();
-        allPossibleHandCombinations = generateKCardCombinations(handCombination,5);
+        ArrayList<ArrayList<Card>> allPossibleHandCombinations = generateKCardCombinations(handCombination,5);
 
         int handRank = 9; //the lower the better
 
@@ -33,8 +32,8 @@ public class HandEvaluator {
 
     public ArrayList<ArrayList<Card>> generateKCardCombinations(ArrayList<Card> cards, int k){
         ArrayList<ArrayList<Card>> finalSubsets = new ArrayList<>();
-        if (k == 0) return null; //empty set?
-        if (k > cards.size()) return null;
+        if (k == 0) return finalSubsets;
+        if (k > cards.size()) return finalSubsets;
         if (k == 1){
             for (Card card : cards){
                 ArrayList<Card> singletonSubset = new ArrayList<>();
@@ -43,21 +42,19 @@ public class HandEvaluator {
             }
             return finalSubsets;
         }
-        ArrayList<ArrayList<Card>> intermediateSubsets = new ArrayList<>();
-        intermediateSubsets = generateKCardCombinations(cards,k-1);
-        for (ArrayList<Card> subset : intermediateSubsets){
-            for (Card card : cards){
-                if (intermediateSubsets.contains(card)) {
-                    continue;
-                } else{
-                    subset.add(card);
-                    finalSubsets.add(subset);
-                }
+        ArrayList<ArrayList<Card>> smallerSubsets = generateKCardCombinations(cards,k-1);
+        for (ArrayList<Card> subset : smallerSubsets){
+            int lastCardIndex = cards.indexOf(subset.get(subset.size()-1));
+            for (int i = lastCardIndex + 1; i < cards.size(); i++){
+                Card card = cards.get(i);
+                ArrayList<Card> newSubset= new ArrayList<>();
+                newSubset.addAll(subset);
+                newSubset.add(card);
+                finalSubsets.add(newSubset);
             }
         }
         return finalSubsets;
     }
-
 
 
     public HandRank determineRank(ArrayList<Card> handCombination){
