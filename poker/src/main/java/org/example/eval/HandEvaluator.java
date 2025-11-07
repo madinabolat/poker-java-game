@@ -80,10 +80,10 @@ public class HandEvaluator {
         int royal_count = 0;
         int rank_ordinals_sum = 0;
         for (Rank rank : rankCounts.keySet()){
-            if (rank.ordinal()>8){
+            if (rank.ordinal()>=8){
                 royal_count += 1;
             }
-            rank_ordinals_sum += 1;
+            rank_ordinals_sum += rank.ordinal();
         }
 
         if (uniqueSuits.size() == 1){
@@ -103,17 +103,23 @@ public class HandEvaluator {
         }
 
         int pair_counter = 0;
-        if (rankCounts.containsValue(2)){
-            pair_counter += 1;
+        for (int count : rankCounts.values()){
+            if (count == 2){
+                pair_counter += 1;
+            }
         }
+
 
         if (pair_counter == 1 && rankCounts.containsValue(3)){
             return HandRank.FULL_HOUSE;
         }
 
-        if (rank_ordinals_sum % 5 == 0 && (handCombination.get(handCombination.size()-1).rank.ordinal()-handCombination.get(0).rank.ordinal()==4)){
+        if ((handCombination.get(handCombination.size()-1).rank.ordinal()-handCombination.get(0).rank.ordinal()==4)
+                ||
+                (handCombination.get(handCombination.size()-1).rank == Rank.ACE && handCombination.get(0).rank == Rank.TWO && (handCombination.get(handCombination.size()-2).rank.ordinal()-handCombination.get(0).rank.ordinal()==3))){
             return HandRank.STRAIGHT;
         }
+
 
         if (rankCounts.containsValue(3)){
             return HandRank.THREE_OF_A_KIND;
@@ -122,6 +128,7 @@ public class HandEvaluator {
         if (pair_counter == 2){
             return HandRank.TWO_PAIR;
         }
+
 
         if (pair_counter == 1){
             return HandRank.ONE_PAIR;

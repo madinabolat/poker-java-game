@@ -88,7 +88,7 @@ public class Dealer {
     public void determineWinner(){
         HandEvaluator handEvaluator = new HandEvaluator();
         int playerOneBestRank = handEvaluator.determineBestRank(communityCards, playerOne.getHoleCards());
-        int playerTwoBestRank = handEvaluator.determineBestRank(communityCards, playerOne.getHoleCards());
+        int playerTwoBestRank = handEvaluator.determineBestRank(communityCards, playerTwo.getHoleCards());
 
         HandRank[] handRanks = HandRank.values();
         System.out.println("Player one hand: " + handRanks[playerOneBestRank]);
