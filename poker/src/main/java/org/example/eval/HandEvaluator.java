@@ -65,7 +65,6 @@ public class HandEvaluator {
 //            System.out.println("not valid input"); //todo: add exception
 //        }
 
-        //I didnt fully understand how this sort works - go through
         handCombination.sort(Comparator.comparing(Card::getRank));
 
         for (Card card : handCombination){
@@ -76,7 +75,6 @@ public class HandEvaluator {
             else {
                 rankCounts.put(card.rank, 1);
             }
-
         }
 
         int royal_count = 0;
@@ -113,7 +111,7 @@ public class HandEvaluator {
             return HandRank.FULL_HOUSE;
         }
 
-        if (rank_ordinals_sum % 5 == 0){
+        if (rank_ordinals_sum % 5 == 0 && (handCombination.get(handCombination.size()-1).rank.ordinal()-handCombination.get(0).rank.ordinal()==4)){
             return HandRank.STRAIGHT;
         }
 
