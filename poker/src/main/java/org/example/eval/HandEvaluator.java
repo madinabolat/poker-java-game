@@ -11,10 +11,6 @@ import java.util.HashSet;
 
 public class HandEvaluator {
 
-    public HandEvaluator(){
-
-    }
-
     public int determineBestRank(ArrayList<Card> communityCards, ArrayList<Card> playerHoleCards){
         ArrayList<Card> handCombination = new ArrayList<>();
         handCombination.addAll(communityCards);
@@ -56,14 +52,13 @@ public class HandEvaluator {
         return finalSubsets;
     }
 
-
     public HandRank determineRank(ArrayList<Card> handCombination){
         HashSet<Suit> uniqueSuits = new HashSet<Suit>();
         HashMap<Rank, Integer> rankCounts = new HashMap<>();
 
-//        if (handCombination.size() != 5 || handCombination == null){
-//            System.out.println("not valid input"); //todo: add exception
-//        }
+        if (handCombination.size() != 5 || handCombination == null){
+            System.out.println("not valid input"); //todo: add exception
+        }
 
         handCombination.sort(Comparator.comparing(Card::getRank));
 
@@ -109,7 +104,6 @@ public class HandEvaluator {
             }
         }
 
-
         if (pair_counter == 1 && rankCounts.containsValue(3)){
             return HandRank.FULL_HOUSE;
         }
@@ -120,7 +114,6 @@ public class HandEvaluator {
             return HandRank.STRAIGHT;
         }
 
-
         if (rankCounts.containsValue(3)){
             return HandRank.THREE_OF_A_KIND;
         }
@@ -128,7 +121,6 @@ public class HandEvaluator {
         if (pair_counter == 2){
             return HandRank.TWO_PAIR;
         }
-
 
         if (pair_counter == 1){
             return HandRank.ONE_PAIR;
@@ -140,7 +132,6 @@ public class HandEvaluator {
     public int determineRankOrdinal(HandRank handRank){
         return handRank.ordinal();
     }
-
 }
 
 //(FOUR, DIAMONDS), (ACE, SPADES), (KING, CLUBS), (FOUR, CLUBS), (FIVE, CLUBS)
