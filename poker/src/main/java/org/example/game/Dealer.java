@@ -2,6 +2,7 @@ package org.example.game;
 
 import org.example.deck.Card;
 import org.example.deck.Deck;
+import org.example.display.Display;
 import org.example.eval.HandEvaluator;
 import org.example.eval.HandRank;
 import org.example.player.Player;
@@ -15,6 +16,7 @@ public class Dealer {
     Player playerTwo;
     private Deck gameDeck = new Deck();
     private ArrayList<Card> communityCards;
+    Display display = new Display();
 
     public Dealer(){
         playerOne = new Player("Player One");
@@ -50,36 +52,28 @@ public class Dealer {
     }
 
     public void dealHands(){
-        System.out.println("DEALER IS IN THE GAME.\n");
+        display.displaySectionHeader("DEALER_IS_IN_THE_GAME");
         gameDeck.shuffle();
 
         Iterator<Card> iterator = gameDeck.deck.iterator();
 
-        System.out.println("======DEALING HOLE CARDS======");
+        display.displaySectionHeader("DEALING_HOLE_CARDS");
         dealPlayerCards(iterator, 2);
         System.out.println("Player One: [XX] [XX]");
         System.out.println("Player Two: [XX] [XX]");
         System.out.println("\n");
 
-        System.out.println("======DEALING COMMUNITY CARDS======");
+        display.displaySectionHeader("DEALING_COMMUNITY_CARDS");
 
         dealCommunityCards(iterator, 3);
-        displayMessageAndCards("<FLOP>", communityCards);
+        display.displayMessageAndCards("FLOP", communityCards);
 
         dealCommunityCards(iterator, 1);
-        displayMessageAndCards("<TURN>", communityCards);
+        display.displayMessageAndCards("TURN", communityCards);
 
         dealCommunityCards(iterator, 1);
-        displayMessageAndCards("<RIVER>", communityCards);
+        display.displayMessageAndCards("RIVER", communityCards);
 
-        System.out.println("\n");
-    }
-
-    public void displayMessageAndCards(String round, ArrayList<Card> cards) {
-        System.out.println(round);
-        for (Card card : cards) {
-            System.out.print("[" + card.rank + ", " + card.suit + "] ");
-        }
         System.out.println("\n");
     }
 
@@ -88,16 +82,16 @@ public class Dealer {
         int playerOneBestRank = handEvaluator.determineBestRank(communityCards, playerOne.getHoleCards());
         int playerTwoBestRank = handEvaluator.determineBestRank(communityCards, playerTwo.getHoleCards());
 
-        System.out.println("============SHOWDOWN============");
-        displayMessageAndCards("PLAYER ONE: ", playerOne.getHoleCards());
-        displayMessageAndCards("PLAYER TWO: ", playerTwo.getHoleCards());
+        display.displaySectionHeader("SHOWDOWN");
+        display.displayMessageAndCards("PLAYER ONE: ", playerOne.getHoleCards());
+        display.displayMessageAndCards("PLAYER TWO: ", playerTwo.getHoleCards());
 
         HandRank[] handRanks = HandRank.values();
         System.out.println("PLAYER ONE HAND: " + handRanks[playerOneBestRank]);
         System.out.println("PLAYER TWO HAND: " + handRanks[playerTwoBestRank]);
         System.out.println("\n");
 
-        System.out.println("============GAME RESULT============");
+        display.displaySectionHeader("GAME_RESULT");
 
         if (playerOneBestRank < playerTwoBestRank){
             System.out.println("          PLAYER ONE WON!");
