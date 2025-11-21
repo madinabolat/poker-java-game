@@ -3,7 +3,7 @@ import org.example.deck.Card;
 import java.util.ArrayList;
 
 public class Player {
-    String name;
+    public String name;
     private ArrayList<Card> holeCards = new ArrayList<Card>();
 
     public Player (String name){

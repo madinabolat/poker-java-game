@@ -59,22 +59,19 @@ public class Dealer {
 
         display.displaySectionHeader("DEALING_HOLE_CARDS");
         dealPlayerCards(iterator, 2);
-        System.out.println("Player One: [XX] [XX]");
-        System.out.println("Player Two: [XX] [XX]");
-        System.out.println("\n");
+        display.displayMessageAndCards("PLAYER_ONE", playerOne.getHoleCards(), false);
+        display.displayMessageAndCards("PLAYER_TWO", playerTwo.getHoleCards(), false);
 
         display.displaySectionHeader("DEALING_COMMUNITY_CARDS");
 
         dealCommunityCards(iterator, 3);
-        display.displayMessageAndCards("FLOP", communityCards);
+        display.displayMessageAndCards("FLOP", communityCards, true);
 
         dealCommunityCards(iterator, 1);
-        display.displayMessageAndCards("TURN", communityCards);
+        display.displayMessageAndCards("TURN", communityCards, true);
 
         dealCommunityCards(iterator, 1);
-        display.displayMessageAndCards("RIVER", communityCards);
-
-        System.out.println("\n");
+        display.displayMessageAndCards("RIVER", communityCards, true);
     }
 
     public void determineWinner(){
@@ -83,22 +80,21 @@ public class Dealer {
         int playerTwoBestRank = handEvaluator.determineBestRank(communityCards, playerTwo.getHoleCards());
 
         display.displaySectionHeader("SHOWDOWN");
-        display.displayMessageAndCards("PLAYER ONE: ", playerOne.getHoleCards());
-        display.displayMessageAndCards("PLAYER TWO: ", playerTwo.getHoleCards());
+        display.displayMessageAndCards("PLAYER_ONE: ", playerOne.getHoleCards(), true);
+        display.displayMessageAndCards("PLAYER_TWO: ", playerTwo.getHoleCards(), true);
 
         HandRank[] handRanks = HandRank.values();
-        System.out.println("PLAYER ONE HAND: " + handRanks[playerOneBestRank]);
-        System.out.println("PLAYER TWO HAND: " + handRanks[playerTwoBestRank]);
-        System.out.println("\n");
+        display.displayPlayerAndRank(playerOne, handRanks[playerOneBestRank]);
+        display.displayPlayerAndRank(playerTwo, handRanks[playerTwoBestRank]);
 
         display.displaySectionHeader("GAME_RESULT");
 
         if (playerOneBestRank < playerTwoBestRank){
-            System.out.println("          PLAYER ONE WON!");
+            display.displayGameResults("PLAYER ONE WON!");
         } else if (playerOneBestRank > playerTwoBestRank){
-            System.out.println("          PLAYER TWO WON!");
+            display.displayGameResults("PLAYER ONE WON!");
         } else {
-            System.out.println("            IT'S A TIE!");
+            display.displayGameResults("IT'S A TIE");
         }
     }
 }
