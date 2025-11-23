@@ -8,41 +8,25 @@ import org.example.eval.HandRank;
 import org.example.player.Player;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 
 public class Dealer {
-    Player playerOne;
-    Player playerTwo;
-    private Deck gameDeck = new Deck();
-    private ArrayList<Card> communityCards;
-    Display display = new Display();
 
-    public Dealer(){
-        playerOne = new Player("Player One");
-        playerTwo = new Player("Player Two");
-        communityCards = new ArrayList<Card>();
+    public void burnCard(Iterator<Card> iterator) {
+        iterator.next();
+        iterator.remove();
     }
 
-    public ArrayList<Card> getCommunityCards() {
-        return communityCards;
-    }
-
-    public void dealCommunityCards(Iterator<Card> iterator, int count){
-        for (int i = 0; i<count; i++){
+    public void dealCommunityCards(ArrayList<Card> communityCards, Iterator<Card> iterator, int count) {
+        for (int i = 0; i < count; i++) {
             communityCards.add(iterator.next());
             iterator.remove();
         }
         burnCard(iterator);
     }
 
-    public void burnCard(Iterator<Card> iterator){
-        iterator.next();
-        iterator.remove();
-    }
-
-    public void dealPlayerCards(Iterator<Card> iterator, int count){
-        for (int i = 0; i<count; i++){
+    public void dealPlayerCards(Player playerOne, Player playerTwo, Iterator<Card> iterator, int count) {
+        for (int i = 0; i < count; i++) {
             playerOne.getHoleCards().add(iterator.next());
             iterator.remove();
             playerTwo.getHoleCards().add(iterator.next());
@@ -51,50 +35,29 @@ public class Dealer {
         burnCard(iterator);
     }
 
-    public void dealHands(){
-        display.displaySectionHeader("DEALER_IS_IN_THE_GAME");
-        gameDeck.shuffle();
-
-        Iterator<Card> iterator = gameDeck.deck.iterator();
-
-        display.displaySectionHeader("DEALING_HOLE_CARDS");
-        dealPlayerCards(iterator, 2);
-        display.displayMessageAndCards("PLAYER_ONE", playerOne.getHoleCards(), false);
-        display.displayMessageAndCards("PLAYER_TWO", playerTwo.getHoleCards(), false);
-
-        display.displaySectionHeader("DEALING_COMMUNITY_CARDS");
-
-        dealCommunityCards(iterator, 3);
-        display.displayMessageAndCards("FLOP", communityCards, true);
-
-        dealCommunityCards(iterator, 1);
-        display.displayMessageAndCards("TURN", communityCards, true);
-
-        dealCommunityCards(iterator, 1);
-        display.displayMessageAndCards("RIVER", communityCards, true);
+    public int determinePlayerBestHandRankNumeric(Player player, ArrayList<Card> communityCards){
+        HandEvaluator handEvaluator = new HandEvaluator();
+        return handEvaluator.determineBestRank(communityCards, player.getHoleCards());
     }
 
-    public void determineWinner(){
-        HandEvaluator handEvaluator = new HandEvaluator();
-        int playerOneBestRank = handEvaluator.determineBestRank(communityCards, playerOne.getHoleCards());
-        int playerTwoBestRank = handEvaluator.determineBestRank(communityCards, playerTwo.getHoleCards());
-
-        display.displaySectionHeader("SHOWDOWN");
-        display.displayMessageAndCards("PLAYER_ONE: ", playerOne.getHoleCards(), true);
-        display.displayMessageAndCards("PLAYER_TWO: ", playerTwo.getHoleCards(), true);
-
+    public HandRank determinePlayerBestHandRank(Player player, ArrayList<Card> communityCards){
+        int handRank = determinePlayerBestHandRankNumeric(player, communityCards);
         HandRank[] handRanks = HandRank.values();
-        display.displayPlayerAndRank(playerOne, handRanks[playerOneBestRank]);
-        display.displayPlayerAndRank(playerTwo, handRanks[playerTwoBestRank]);
+        return handRanks[handRank];
+    }
 
-        display.displaySectionHeader("GAME_RESULT");
+    public GameResult determineWinner(Player playerOne, Player playerTwo, ArrayList<Card> communityCards) {
+        int playerOneBestRank = determinePlayerBestHandRankNumeric(playerOne, communityCards);
+        int playerTwoBestRank = determinePlayerBestHandRankNumeric(playerTwo, communityCards);
 
-        if (playerOneBestRank < playerTwoBestRank){
-            display.displayGameResults("PLAYER_ONE_WON!");
-        } else if (playerOneBestRank > playerTwoBestRank){
-            display.displayGameResults("PLAYER_TWO_WON!");
+        if (playerOneBestRank == playerTwoBestRank) {
+            return new GameResult(GameOutcome.TIE, null);
         } else {
-            display.displayGameResults("IT'S A TIE");
+            if (playerOneBestRank < playerTwoBestRank) {
+                return new GameResult(GameOutcome.WIN, playerOne);
+            } else {
+                return new GameResult(GameOutcome.WIN, playerTwo);
+            }
         }
     }
 }
