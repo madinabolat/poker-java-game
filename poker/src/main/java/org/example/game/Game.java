@@ -11,6 +11,7 @@ import java.util.Iterator;
 
 public class Game {
     public Dealer dealer = new Dealer();
+    public GameEvaluator gameEvaluator = new GameEvaluator();
     private Deck gameDeck = new Deck();
     Player playerOne;
     Player playerTwo;
@@ -54,12 +55,12 @@ public class Game {
 
         display.displaySectionHeader("PLAYER_HANDS");
         HandRank[] handRanks = HandRank.values();
-        display.displayPlayerAndRank(playerOne, dealer.determinePlayerBestHandRank(playerOne, communityCards));
-        display.displayPlayerAndRank(playerTwo, dealer.determinePlayerBestHandRank(playerTwo, communityCards));
+        display.displayPlayerAndRank(playerOne, gameEvaluator.determinePlayerBestHandRank(playerOne, communityCards));
+        display.displayPlayerAndRank(playerTwo, gameEvaluator.determinePlayerBestHandRank(playerTwo, communityCards));
 
 
         display.displaySectionHeader("GAME_RESULT");
-        GameResult gameResult = dealer.determineWinner(playerOne, playerTwo, communityCards);
+        GameResult gameResult = gameEvaluator.determineWinner(playerOne, playerTwo, communityCards);
         display.displayGameResult(gameResult);
     }
 
