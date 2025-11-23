@@ -90,9 +90,9 @@ public class Dealer {
         display.displaySectionHeader("GAME_RESULT");
 
         if (playerOneBestRank < playerTwoBestRank){
-            display.displayGameResults("PLAYER ONE WON!");
+            display.displayGameResults("PLAYER_ONE_WON!");
         } else if (playerOneBestRank > playerTwoBestRank){
-            display.displayGameResults("PLAYER ONE WON!");
+            display.displayGameResults("PLAYER_TWO_WON!");
         } else {
             display.displayGameResults("IT'S A TIE");
         }
