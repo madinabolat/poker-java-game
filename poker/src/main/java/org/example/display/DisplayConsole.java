@@ -31,11 +31,11 @@ public class DisplayConsole implements DisplayInterface {
     public void displayCards(ArrayList<Card> cards, boolean hidden){
         if (hidden == false){
             for (Card card : cards) {
-                System.out.print("[" + card.rank + ", " + card.suit + "] ");
+                System.out.println("[" + card.rank + ", " + card.suit + "] ");
             }
         } else{
             for (Card card : cards) {
-                System.out.print("[XX]");
+                System.out.println("[XX]");
             }
         }
         printNewLine();

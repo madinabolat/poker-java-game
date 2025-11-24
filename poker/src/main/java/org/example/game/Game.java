@@ -27,18 +27,18 @@ public class Game {
     }
 
     public void dealCards(){
-        display.displaySectionHeader("WELCOME_TO_TEXAS_HOLD'EM_ROUND");
-        display.displaySectionHeader("DEALER_IS_IN_THE_GAME");
+        display.displaySectionHeader("WELCOME TO TEXAS HOLD'EM ROUND");
+        display.displaySectionHeader("DEALER IS IN THE GAME");
         gameDeck.shuffle();
         Iterator<Card> iterator = gameDeck.deck.iterator();
 
-        display.displaySectionHeader("DEALING_HOLE_CARDS");
+        display.displaySectionHeader("DEALING HOLE CARDS");
         dealer.dealPlayerCards(playerOne, playerTwo, iterator, 2);
 
         display.displayPlayerCards(playerOne, true);
         display.displayPlayerCards(playerTwo, true);
 
-        display.displaySectionHeader("DEALING_COMMUNITY_CARDS");
+        display.displaySectionHeader("DEALING COMMUNITY CARDS");
 
         dealer.dealCommunityCards(communityCards, iterator, 3);
         display.displayMessageAndCards("FLOP", communityCards, false);
@@ -52,16 +52,16 @@ public class Game {
 
     public void announceResults(){
         display.displaySectionHeader("SHOWDOWN");
-        display.displayMessageAndCards("PLAYER_ONE: ", playerOne.getHoleCards(), false);
-        display.displayMessageAndCards("PLAYER_TWO: ", playerTwo.getHoleCards(), false);
+        display.displayPlayerCards(playerOne, false);
+        display.displayPlayerCards(playerTwo, false);
 
-        display.displaySectionHeader("PLAYER_HANDS");
+        display.displaySectionHeader("PLAYER HANDS");
         HandRank[] handRanks = HandRank.values();
         display.displayPlayerAndRank(playerOne, gameEvaluator.determinePlayerBestHandRank(playerOne, communityCards));
         display.displayPlayerAndRank(playerTwo, gameEvaluator.determinePlayerBestHandRank(playerTwo, communityCards));
 
 
-        display.displaySectionHeader("GAME_RESULT");
+        display.displaySectionHeader("GAME RESULT");
         GameResult gameResult = gameEvaluator.determineWinner(playerOne, playerTwo, communityCards);
         display.displayGameResult(gameResult);
     }

@@ -1,10 +1,14 @@
 package org.example.display;
+import org.example.deck.Card;
+import org.example.eval.HandRank;
+import org.example.game.GameOutcome;
+import org.example.game.GameResult;
+import org.example.player.Player;
+
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
-public class DisplayGUI {
-
+public class DisplayGUI implements DisplayInterface {
     public JFrame frame;
     public JButton welcomeButton;
     public JButton nextButton;
@@ -18,47 +22,70 @@ public class DisplayGUI {
         this.height = height;
         frame = new JFrame();
         welcomeButton = new JButton("Play!");
-        nextButton = new JButton("Next");
         textArea = new JTextArea(30,30);
         panel = new JPanel();
-    }
 
-    public void setUpSwing(){
         panel.add(textArea);
-        panel.add(welcomeButton);
         frame.setSize(width, height);
         frame.setTitle("WELCOME TO TEXAS HOLD'EM ROUND");
         frame.add(panel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setUpButtonListeners();
         frame.setVisible(true);
     }
 
-    public void setUpButtonListeners(){
-        ActionListener welcomeButtonListener = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                panel.remove(welcomeButton);
-                panel.repaint();
-
-                panel.add(nextButton);
-
-                textArea.append("This text is appended.");
-                textArea.append("\n");
-            }
-        };
-
-        ActionListener nextButtonListener = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                textArea.append("next button text");
-                textArea.append("\n");
-            }
-        };
-        welcomeButton.addActionListener(welcomeButtonListener);
-        nextButton.addActionListener(nextButtonListener);
+    public void printNewLine(){
+        textArea.append("\n");
     }
 
-    
+    public void displaySectionHeader(String text){
+        textArea.append(text);
+        printNewLine();
+        printNewLine();
+    }
 
+    public void displayPlayerAndRank(Player player, HandRank handRank){
+        textArea.append(player.name + " rank: " + handRank);
+        printNewLine();
+        printNewLine();
+    }
+
+    public void displayGameResults(String message){
+        textArea.append(message);
+        printNewLine();
+    }
+
+    public void displayCards(ArrayList<Card> cards, boolean hidden){
+        if (hidden == false){
+            for (Card card : cards) {
+                textArea.append("[" + card.rank + ", " + card.suit + "] ");
+            }
+        } else{
+            for (Card card : cards) {
+                textArea.append("[XX]");
+            }
+        }
+        printNewLine();
+    }
+
+    public void displayPlayerCards(Player player, boolean hidden) {
+        textArea.append(player.name + ": ");
+        displayCards(player.getHoleCards(), hidden);
+        printNewLine();
+    }
+
+    public void displayMessageAndCards(String text, ArrayList<Card> cards, boolean hidden) {
+        textArea.append(text);
+        displayCards(cards, hidden);
+        printNewLine();
+    }
+
+    public void displayGameResult(GameResult gameResult) {
+        if (gameResult.gameOutcome == GameOutcome.TIE){
+            textArea.append("It's a TIE");
+        } else{
+            Player winner = gameResult.player;
+            textArea.append(winner.name + " won!");
+        }
+    }
 }
+
