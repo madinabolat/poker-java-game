@@ -2,7 +2,8 @@ package org.example.game;
 
 import org.example.deck.Card;
 import org.example.deck.Deck;
-import org.example.display.Display;
+import org.example.display.DisplayConsole;
+import org.example.display.DisplayInterface;
 import org.example.eval.HandRank;
 import org.example.player.Player;
 
@@ -16,12 +17,13 @@ public class Game {
     Player playerOne;
     Player playerTwo;
     private ArrayList<Card> communityCards;
-    Display display = new Display();
+    DisplayInterface display;
 
-    public Game(){
+    public Game(DisplayInterface display){
         playerOne = new Player("Player One");
         playerTwo = new Player("Player Two");
         communityCards = new ArrayList<Card>();
+        this.display = display;
     }
 
     public void dealCards(){

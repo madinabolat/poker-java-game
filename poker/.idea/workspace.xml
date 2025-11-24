@@ -5,8 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6a229d17-a586-4a5e-8985-626de1ccd0ae" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/game/GameEvaluator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/display/DisplayGUI.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/display/DisplayInterface.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/PokerApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/PokerApp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/display/Display.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/display/DisplayConsole.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/game/Dealer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/game/Dealer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/game/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/game/Game.java" afterDir="false" />
     </list>
@@ -20,6 +23,7 @@
       <list>
         <option value="Enum" />
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>

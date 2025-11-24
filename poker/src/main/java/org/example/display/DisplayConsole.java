@@ -8,7 +8,7 @@ import org.example.player.Player;
 
 import java.util.ArrayList;
 
-public class Display {
+public class DisplayConsole implements DisplayInterface {
 
     public void displaySectionHeader(String text){
         System.out.println(text);
