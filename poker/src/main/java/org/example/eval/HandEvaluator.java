@@ -132,6 +132,10 @@ public class HandEvaluator {
     public int determineRankOrdinal(HandRank handRank){
         return handRank.ordinal();
     }
+
+    public void determineWinnerWhenSameRank(ArrayList<Card> playerOneHoleCards, ArrayList<Card> playerTwoHoleCards){
+
+    }
 }
 
 //(FOUR, DIAMONDS), (ACE, SPADES), (KING, CLUBS), (FOUR, CLUBS), (FIVE, CLUBS)
