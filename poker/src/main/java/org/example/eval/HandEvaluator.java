@@ -4,6 +4,7 @@ import org.example.deck.Card;
 import org.example.deck.Rank;
 import org.example.deck.Suit;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -52,18 +53,19 @@ public class HandEvaluator {
         return finalSubsets;
     }
 
-    public HandRank determineRank(ArrayList<Card> handCombination){
+    public HashSet<Suit> returnUniqueSuits(ArrayList<Card> handCombination){
         HashSet<Suit> uniqueSuits = new HashSet<Suit>();
-        HashMap<Rank, Integer> rankCounts = new HashMap<>();
-
-        if (handCombination.size() != 5 || handCombination == null){
-            System.out.println("not valid input"); //todo: add exception
-        }
-
-        handCombination.sort(Comparator.comparing(Card::getRank));
 
         for (Card card : handCombination){
             uniqueSuits.add(card.suit);
+        }
+
+        return uniqueSuits;
+    }
+
+    public HashMap<Rank, Integer> returnRanksWithCountOfEachRank(ArrayList<Card> handCombination){
+        HashMap<Rank, Integer> rankCounts = new HashMap<>();
+        for (Card card : handCombination){
             if (rankCounts.containsKey(card.rank)){
                 rankCounts.put(card.rank, rankCounts.get(card.rank)+1);
             }
@@ -71,41 +73,71 @@ public class HandEvaluator {
                 rankCounts.put(card.rank, 1);
             }
         }
+        return rankCounts;
+    }
 
-        int royal_count = 0;
-        int rank_ordinals_sum = 0;
+    public void sortByAscendingRank(ArrayList<Card> handCombination){
+        handCombination.sort(Comparator.comparing(Card::getRank));
+    }
+
+    public int countRoyalFlushCards(ArrayList<Card> handCombination){
+        int royalFlushCardsCount = 0;
+        HashMap<Rank, Integer> rankCounts = returnRanksWithCountOfEachRank(handCombination);
+        //rank.ordinal(Rank.TWO) == 0, ..., rank.ordinal(Rank.NINE) == 7,
+        //starting from 8 - Royal Flush Cards (TEN, JACK, QUEEN, KING, ACE)
         for (Rank rank : rankCounts.keySet()){
             if (rank.ordinal()>=8){
-                royal_count += 1;
+                royalFlushCardsCount += 1;
             }
-            rank_ordinals_sum += rank.ordinal();
         }
+        return royalFlushCardsCount;
+    }
+
+    public int sumRankOrdinals(ArrayList<Card> handCombination){
+        int rankOrdinalsSum = 0;
+        HashMap<Rank, Integer> rankCounts = returnRanksWithCountOfEachRank(handCombination);
+        for (Rank rank : rankCounts.keySet()){
+            rankOrdinalsSum += rank.ordinal();
+        }
+        return rankOrdinalsSum;
+    }
+
+    public int countPairs(ArrayList<Card> handCombination){
+        int pairsCount = 0;
+        HashMap<Rank, Integer> rankCounts = returnRanksWithCountOfEachRank(handCombination);
+        for (int count : rankCounts.values()){
+            if (count == 2){
+                pairsCount += 1;
+            }
+        }
+        return pairsCount;
+    }
+
+    public HandRank determineRank(ArrayList<Card> handCombination){
+        HashSet<Suit> uniqueSuits = returnUniqueSuits(handCombination);
+        HashMap<Rank, Integer> rankCounts = returnRanksWithCountOfEachRank(handCombination);
+        int royalFlushCardsCount = countRoyalFlushCards(handCombination);
+        int rankOrdinalsSum = sumRankOrdinals(handCombination);
+        int pairsCount = countPairs(handCombination);
+
+        sortByAscendingRank(handCombination);
 
         if (uniqueSuits.size() == 1){
-            if (royal_count == 5){
-                return HandRank.ROYAL_FLUSH;
+            if (royalFlushCardsCount == 5){
+                return HandRank.ROYAL_FLUSH; //TEN,JACK,QUEEN,KING,ACE of the same suit
             }
-
-            if (rank_ordinals_sum % 5 == 0){
-                return HandRank.STRAIGHT_FLUSH;
+            if (rankOrdinalsSum % 5 == 0){
+                return HandRank.STRAIGHT_FLUSH;//SEVEN,EIGHT,NINE,TEN,JACK (a sequence) of the same suit
             }
-
-            return HandRank.FLUSH;
+            return HandRank.FLUSH;//any five cards of the same suit
         }
 
         if (rankCounts.containsValue(4)){
             return HandRank.FOUR_OF_A_KIND;
         }
 
-        int pair_counter = 0;
-        for (int count : rankCounts.values()){
-            if (count == 2){
-                pair_counter += 1;
-            }
-        }
-
-        if (pair_counter == 1 && rankCounts.containsValue(3)){
-            return HandRank.FULL_HOUSE;
+        if (pairsCount == 1 && rankCounts.containsValue(3)){
+            return HandRank.FULL_HOUSE; //THREE_OF_A_KIND and ONE_PAIR
         }
 
         if ((handCombination.get(handCombination.size()-1).rank.ordinal()-handCombination.get(0).rank.ordinal()==4)
@@ -118,11 +150,11 @@ public class HandEvaluator {
             return HandRank.THREE_OF_A_KIND;
         }
 
-        if (pair_counter == 2){
+        if (pairsCount == 2){
             return HandRank.TWO_PAIR;
         }
 
-        if (pair_counter == 1){
+        if (pairsCount == 1){
             return HandRank.ONE_PAIR;
         }
 
