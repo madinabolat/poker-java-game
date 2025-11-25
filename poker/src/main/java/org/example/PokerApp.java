@@ -36,7 +36,7 @@ public class PokerApp {
 
 
         HandEvaluator handEvaluator = new HandEvaluator();
-        handEvaluator.sortByRank(handCombination);
+        handEvaluator.sortByAscendingRank(handCombination);
 
         System.out.println("AFTER SORTING");
 
