@@ -5,10 +5,7 @@ import org.example.deck.Rank;
 import org.example.deck.Suit;
 
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.*;
 
 public class HandEvaluator {
 
@@ -76,6 +73,15 @@ public class HandEvaluator {
         return rankCounts;
     }
 
+    public ArrayList<Integer> returnRankOrdinals(ArrayList<Card> handCombination){
+        HashMap<Rank, Integer> rankCounts = returnRanksWithCountOfEachRank(handCombination);
+        ArrayList<Integer> rankOrdinals = new ArrayList<Integer>();
+        for (Rank rank : rankCounts.keySet()){
+            rankOrdinals.add(rank.ordinal());
+        }
+        return rankOrdinals;
+    }
+
     public void sortByAscendingRank(ArrayList<Card> handCombination){
         handCombination.sort(Comparator.comparing(Card::getRank));
     }
@@ -113,6 +119,33 @@ public class HandEvaluator {
         return pairsCount;
     }
 
+    public boolean isConsecutiveRanks(ArrayList<Integer> rankOrdinals, int startIndex, int endIndex){
+        for (int i = startIndex; i < endIndex; i++){
+            if (rankOrdinals.get(i+1)-rankOrdinals.get(i) != 1){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean isStraight(ArrayList<Card> handCombination) {
+        HashMap<Rank, Integer> rankCounts = returnRanksWithCountOfEachRank(handCombination);
+        if (rankCounts.size()<5){
+            return false;
+        }
+        ArrayList<Integer> rankOrdinals = returnRankOrdinals(handCombination);
+        Collections.sort(rankOrdinals);
+
+        if (isConsecutiveRanks(rankOrdinals,0,4)){
+            return true;
+        } else if(rankOrdinals.get(4) == 12 && rankOrdinals.get(0) == 0 && isConsecutiveRanks(rankOrdinals,0,3)){
+            //if the last card is Ace and the first is Two and if the first four cards are consecutives
+            return true;
+        } else{
+            return false;
+        }
+    }
+
     public HandRank determineRank(ArrayList<Card> handCombination){
         HashSet<Suit> uniqueSuits = returnUniqueSuits(handCombination);
         HashMap<Rank, Integer> rankCounts = returnRanksWithCountOfEachRank(handCombination);
@@ -127,9 +160,9 @@ public class HandEvaluator {
                 return HandRank.ROYAL_FLUSH; //TEN,JACK,QUEEN,KING,ACE of the same suit
             }
             if (rankOrdinalsSum % 5 == 0){
-                return HandRank.STRAIGHT_FLUSH;//SEVEN,EIGHT,NINE,TEN,JACK (a sequence) of the same suit
+                return HandRank.STRAIGHT_FLUSH; //SEVEN,EIGHT,NINE,TEN,JACK (a sequence) of the same suit
             }
-            return HandRank.FLUSH;//any five cards of the same suit
+            return HandRank.FLUSH; //any five cards of the same suit
         }
 
         if (rankCounts.containsValue(4)){
@@ -140,9 +173,7 @@ public class HandEvaluator {
             return HandRank.FULL_HOUSE; //THREE_OF_A_KIND and ONE_PAIR
         }
 
-        if ((handCombination.get(handCombination.size()-1).rank.ordinal()-handCombination.get(0).rank.ordinal()==4)
-                ||
-                (handCombination.get(handCombination.size()-1).rank == Rank.ACE && handCombination.get(0).rank == Rank.TWO && (handCombination.get(handCombination.size()-2).rank.ordinal()-handCombination.get(0).rank.ordinal()==3))){
+        if (isStraight(handCombination)){
             return HandRank.STRAIGHT;
         }
 
