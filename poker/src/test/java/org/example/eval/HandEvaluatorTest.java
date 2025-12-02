@@ -85,4 +85,135 @@ public class HandEvaluatorTest {
 
         assertFalse(handEvaluator.isStraight(handCombination));
     }
+
+
+    @Test
+    public void detectsRoyalFlush(){
+        handCombination.add(new Card(Rank.ACE, Suit.HEARTS));
+        handCombination.add(new Card(Rank.KING, Suit.HEARTS));
+        handCombination.add(new Card(Rank.QUEEN, Suit.HEARTS));
+        handCombination.add(new Card(Rank.JACK, Suit.HEARTS));
+        handCombination.add(new Card(Rank.TEN, Suit.HEARTS));
+        assertEquals(HandRank.ROYAL_FLUSH, handEvaluator.determineRank(handCombination));
+    }
+
+    @Test
+    public void doesNotReturnRoyalFlushWhenDifferentSuits(){
+        handCombination.add(new Card(Rank.ACE, Suit.HEARTS));
+        handCombination.add(new Card(Rank.KING, Suit.HEARTS));
+        handCombination.add(new Card(Rank.QUEEN, Suit.DIAMONDS));
+        handCombination.add(new Card(Rank.JACK, Suit.HEARTS));
+        handCombination.add(new Card(Rank.TEN, Suit.HEARTS));
+        assertNotEquals(HandRank.ROYAL_FLUSH, handEvaluator.determineRank(handCombination));
+    }
+
+    @Test
+    public void detectsStraightFlush(){
+        handCombination.add(new Card(Rank.THREE, Suit.HEARTS));
+        handCombination.add(new Card(Rank.FOUR, Suit.HEARTS));
+        handCombination.add(new Card(Rank.FIVE, Suit.HEARTS));
+        handCombination.add(new Card(Rank.SIX, Suit.HEARTS));
+        handCombination.add(new Card(Rank.SEVEN, Suit.HEARTS));
+        assertEquals(HandRank.STRAIGHT_FLUSH, handEvaluator.determineRank(handCombination));
+    }
+
+    @Test
+    public void doesNotReturnStraightFlushWhenDifferentSuits(){
+        handCombination.add(new Card(Rank.THREE, Suit.HEARTS));
+        handCombination.add(new Card(Rank.FOUR, Suit.DIAMONDS));
+        handCombination.add(new Card(Rank.FIVE, Suit.HEARTS));
+        handCombination.add(new Card(Rank.SIX, Suit.HEARTS));
+        handCombination.add(new Card(Rank.SEVEN, Suit.HEARTS));
+        assertNotEquals(HandRank.STRAIGHT_FLUSH, handEvaluator.determineRank(handCombination));
+    }
+
+    @Test
+    public void doesNotReturnStraightFlushWhenNotConsecutive(){
+        handCombination.add(new Card(Rank.THREE, Suit.HEARTS));
+        handCombination.add(new Card(Rank.FOUR, Suit.DIAMONDS));
+        handCombination.add(new Card(Rank.FIVE, Suit.HEARTS));
+        handCombination.add(new Card(Rank.SIX, Suit.HEARTS));
+        handCombination.add(new Card(Rank.TEN, Suit.HEARTS));
+        assertNotEquals(HandRank.STRAIGHT_FLUSH, handEvaluator.determineRank(handCombination));
+    }
+
+    @Test
+    public void detectsFourOfAKind(){
+        handCombination.add(new Card(Rank.THREE, Suit.HEARTS));
+        handCombination.add(new Card(Rank.THREE, Suit.DIAMONDS));
+        handCombination.add(new Card(Rank.THREE, Suit.SPADES));
+        handCombination.add(new Card(Rank.THREE, Suit.CLUBS));
+        handCombination.add(new Card(Rank.TEN, Suit.HEARTS));
+        assertEquals(HandRank.FOUR_OF_A_KIND, handEvaluator.determineRank(handCombination));
+    }
+
+    @Test
+    public void detectsThreeOfAKind(){
+        handCombination.add(new Card(Rank.THREE, Suit.HEARTS));
+        handCombination.add(new Card(Rank.THREE, Suit.DIAMONDS));
+        handCombination.add(new Card(Rank.TEN, Suit.SPADES));
+        handCombination.add(new Card(Rank.THREE, Suit.CLUBS));
+        handCombination.add(new Card(Rank.TWO, Suit.HEARTS));
+        assertEquals(HandRank.THREE_OF_A_KIND, handEvaluator.determineRank(handCombination));
+    }
+
+    @Test
+    public void doesNotReturnThreeOfAKindWhenFullHouse(){
+        handCombination.add(new Card(Rank.THREE, Suit.HEARTS));
+        handCombination.add(new Card(Rank.THREE, Suit.DIAMONDS));
+        handCombination.add(new Card(Rank.TWO, Suit.SPADES));
+        handCombination.add(new Card(Rank.THREE, Suit.CLUBS));
+        handCombination.add(new Card(Rank.TWO, Suit.HEARTS));
+        assertNotEquals(HandRank.THREE_OF_A_KIND, handEvaluator.determineRank(handCombination));
+    }
+
+    @Test
+    public void detectsFullHouse(){
+        handCombination.add(new Card(Rank.THREE, Suit.HEARTS));
+        handCombination.add(new Card(Rank.THREE, Suit.DIAMONDS));
+        handCombination.add(new Card(Rank.TWO, Suit.SPADES));
+        handCombination.add(new Card(Rank.THREE, Suit.CLUBS));
+        handCombination.add(new Card(Rank.TWO, Suit.HEARTS));
+        assertEquals(HandRank.FULL_HOUSE, handEvaluator.determineRank(handCombination));
+    }
+
+    @Test
+    public void detectsFlush(){
+        handCombination.add(new Card(Rank.THREE, Suit.HEARTS));
+        handCombination.add(new Card(Rank.FOUR, Suit.HEARTS));
+        handCombination.add(new Card(Rank.ACE, Suit.HEARTS));
+        handCombination.add(new Card(Rank.JACK, Suit.HEARTS));
+        handCombination.add(new Card(Rank.QUEEN, Suit.HEARTS));
+        assertEquals(HandRank.FLUSH, handEvaluator.determineRank(handCombination));
+    }
+
+    @Test
+    public void detectsTwoPair(){
+        handCombination.add(new Card(Rank.THREE, Suit.HEARTS));
+        handCombination.add(new Card(Rank.FOUR, Suit.HEARTS));
+        handCombination.add(new Card(Rank.THREE, Suit.SPADES));
+        handCombination.add(new Card(Rank.FOUR, Suit.DIAMONDS));
+        handCombination.add(new Card(Rank.QUEEN, Suit.HEARTS));
+        assertEquals(HandRank.TWO_PAIR, handEvaluator.determineRank(handCombination));
+    }
+
+    @Test
+    public void detectsOnePair(){
+        handCombination.add(new Card(Rank.THREE, Suit.HEARTS));
+        handCombination.add(new Card(Rank.THREE, Suit.DIAMONDS));
+        handCombination.add(new Card(Rank.ACE, Suit.HEARTS));
+        handCombination.add(new Card(Rank.JACK, Suit.HEARTS));
+        handCombination.add(new Card(Rank.QUEEN, Suit.HEARTS));
+        assertEquals(HandRank.ONE_PAIR, handEvaluator.determineRank(handCombination));
+    }
+
+    @Test
+    public void returnsHighCardWhenNothingMatches(){
+        handCombination.add(new Card(Rank.THREE, Suit.HEARTS));
+        handCombination.add(new Card(Rank.FOUR, Suit.HEARTS));
+        handCombination.add(new Card(Rank.ACE, Suit.DIAMONDS));
+        handCombination.add(new Card(Rank.JACK, Suit.HEARTS));
+        handCombination.add(new Card(Rank.QUEEN, Suit.HEARTS));
+        assertEquals(HandRank.HIGH_CARD, handEvaluator.determineRank(handCombination));
+    }
 }
