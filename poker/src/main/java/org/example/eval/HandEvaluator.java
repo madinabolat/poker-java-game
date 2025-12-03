@@ -200,27 +200,3 @@ public class HandEvaluator {
 
     }
 }
-
-//(FOUR, DIAMONDS), (ACE, SPADES), (KING, CLUBS), (FOUR, CLUBS), (FIVE, CLUBS)
-//sorted: (FOUR, DIAMONDS), (FOUR, CLUBS), (FIVE, CLUBS), (KING, CLUBS), (ACE, SPADES)
-//uniqueSuits = {DIAMONDS, CLUBS, SPADES}
-//rankCounts = {(FOUR,2), (FIVE,1), (KING,1), (ACE,1)}
-
-//royal flush
-//(TEN, DIAMONDS), (KING, DIAMONDS), (JACK, DIAMONDS), (ACE, DIAMONDS), (QUEEN, DIAMONDS)
-//sorted: (TEN, DIAMONDS),  (JACK, DIAMONDS), (QUEEN, DIAMONDS), (KING, DIAMONDS), (ACE, DIAMONDS)
-//uniqueSuits = {DIAMONDS}
-//rankCounts = {(TEN,1), (JACK,1), (QUEEN,1), (KING,1), (ACE,1)}
-
-//straight flush
-//(TEN, DIAMONDS), (NINE, DIAMONDS), (SEVEN, DIAMONDS), (SIX, DIAMONDS), (EIGHT, DIAMONDS)
-//sorted: (SIX, DIAMONDS),  (SEVEN, DIAMONDS), (EIGHT, DIAMONDS), (NINE, DIAMONDS), (TEN, DIAMONDS)
-//uniqueSuits = {DIAMONDS}
-//rankCounts = {(SIX,1), (SEVEN,1), (EIGHT,1), (NINE,1), (TEN,1)}
-//ordinals 4,5,6,7,8 -> 4,4+1,4+2,4+3,4+4 -> 4*5+(0+1+2+3+4+5) -> divisible by 5
-
-//flush
-//(FOUR, DIAMONDS), (ACE, DIAMONDS), (KING, DIAMONDS), (SIX, DIAMONDS), (FIVE, DIAMONDS)
-//sorted: (FOUR, DIAMONDS), (FIVE, DIAMONDS), (SIX, DIAMONDS), (KING, DIAMONDS), (ACE, DIAMONDS)
-//uniqueSuits = {DIAMONDS}
-//rankCounts = {(FOUR,1), (FIVE,1), (SIX,1), (KING,1), (ACE,1)}
