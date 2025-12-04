@@ -9,19 +9,21 @@ import java.util.*;
 
 public class HandEvaluator {
 
-    public int determineBestRank(ArrayList<Card> communityCards, ArrayList<Card> playerHoleCards){
+    public HandResult determineBestHand(ArrayList<Card> communityCards, ArrayList<Card> playerHoleCards){
         ArrayList<Card> handCombination = new ArrayList<>();
         handCombination.addAll(communityCards);
         handCombination.addAll(playerHoleCards);
         ArrayList<ArrayList<Card>> allPossibleHandCombinations = generateKCardCombinations(handCombination,5);
 
-        int handRank = 9; //the lower the better
+        HandResult handResult = new HandResult(HandRank.HIGH_CARD, new ArrayList<>(), new ArrayList<>()); //handRank for HIGH_CARD is 9. the lower the better.
 
         for (ArrayList<Card> combination : allPossibleHandCombinations){
-            handRank = Math.min(determineRankOrdinal(determineRank(combination)),handRank);
+            HandResult currentHandResult = determineRank(combination);
+            if (currentHandResult.isBetterThan(handResult)){
+                handResult = currentHandResult;
+            }
         }
-
-        return handRank;
+        return handResult;
     }
 
     public ArrayList<ArrayList<Card>> generateKCardCombinations(ArrayList<Card> cards, int k){
@@ -71,6 +73,27 @@ public class HandEvaluator {
             }
         }
         return rankCounts;
+    }
+
+    public ArrayList<Integer> returnMainHandRankOrdinals(HashMap<Rank, Integer> rankCounts, int targetCountValue){
+        ArrayList<Integer> mainHandOrdinals = new ArrayList<>();
+        for (Map.Entry<Rank, Integer> entry : rankCounts.entrySet()){
+            if (entry.getValue().equals(targetCountValue)){
+                mainHandOrdinals.add(entry.getKey().ordinal());
+            }
+        }
+        return mainHandOrdinals;
+    }
+
+    public ArrayList<Integer> returnKickerHandRankOrdinals(HashMap<Rank, Integer> rankCounts, int mainHandCountValue){
+        ArrayList<Integer> kickerHandOrdinals = new ArrayList<>();
+        for (Map.Entry<Rank, Integer> entry : rankCounts.entrySet()){
+            if (!entry.getValue().equals(mainHandCountValue)){
+                kickerHandOrdinals.add(entry.getKey().ordinal());
+            }
+        }
+        Collections.sort(kickerHandOrdinals);
+        return kickerHandOrdinals;
     }
 
     public ArrayList<Integer> returnRankOrdinals(ArrayList<Card> handCombination){
@@ -146,7 +169,7 @@ public class HandEvaluator {
         }
     }
 
-    public HandRank determineRank(ArrayList<Card> handCombination){
+    public HandResult determineRank(ArrayList<Card> handCombination){
         HashSet<Suit> uniqueSuits = returnUniqueSuits(handCombination);
         HashMap<Rank, Integer> rankCounts = returnRanksWithCountOfEachRank(handCombination);
         int royalFlushCardsCount = countRoyalFlushCards(handCombination);
@@ -157,46 +180,41 @@ public class HandEvaluator {
 
         if (uniqueSuits.size() == 1){
             if (royalFlushCardsCount == 5){
-                return HandRank.ROYAL_FLUSH; //TEN,JACK,QUEEN,KING,ACE of the same suit
+                return new HandResult(HandRank.ROYAL_FLUSH, returnMainHandRankOrdinals(rankCounts,1), returnKickerHandRankOrdinals(rankCounts,1)); //TEN,JACK,QUEEN,KING,ACE of the same suit
             }
             if (rankOrdinalsSum % 5 == 0){
-                return HandRank.STRAIGHT_FLUSH; //SEVEN,EIGHT,NINE,TEN,JACK (a sequence) of the same suit
+                return new HandResult(HandRank.STRAIGHT_FLUSH, returnMainHandRankOrdinals(rankCounts,1), returnKickerHandRankOrdinals(rankCounts,1)); //SEVEN,EIGHT,NINE,TEN,JACK (a sequence) of the same suit
             }
-            return HandRank.FLUSH; //any five cards of the same suit
+            return new HandResult(HandRank.FLUSH, returnMainHandRankOrdinals(rankCounts,1), returnKickerHandRankOrdinals(rankCounts,1)); //any five cards of the same suit
         }
 
         if (rankCounts.containsValue(4)){
-            return HandRank.FOUR_OF_A_KIND;
+            return new HandResult(HandRank.FOUR_OF_A_KIND, returnMainHandRankOrdinals(rankCounts,4), returnKickerHandRankOrdinals(rankCounts,4));
         }
 
         if (pairsCount == 1 && rankCounts.containsValue(3)){
-            return HandRank.FULL_HOUSE; //THREE_OF_A_KIND and ONE_PAIR
+            ArrayList<Integer> pairOrdinals = returnMainHandRankOrdinals(rankCounts,2);
+            ArrayList<Integer> tripleOrdinals = returnMainHandRankOrdinals(rankCounts,3);
+            return new HandResult(HandRank.FULL_HOUSE, tripleOrdinals, pairOrdinals); //THREE_OF_A_KIND and ONE_PAIR
         }
 
         if (isStraight(handCombination)){
-            return HandRank.STRAIGHT;
+            return new HandResult(HandRank.STRAIGHT, returnMainHandRankOrdinals(rankCounts,1), returnKickerHandRankOrdinals(rankCounts,1));
         }
 
         if (rankCounts.containsValue(3)){
-            return HandRank.THREE_OF_A_KIND;
+            return new HandResult(HandRank.THREE_OF_A_KIND, returnMainHandRankOrdinals(rankCounts,3), returnKickerHandRankOrdinals(rankCounts,3));
         }
 
         if (pairsCount == 2){
-            return HandRank.TWO_PAIR;
+            return new HandResult(HandRank.TWO_PAIR, returnMainHandRankOrdinals(rankCounts,2), returnKickerHandRankOrdinals(rankCounts,2));
         }
 
         if (pairsCount == 1){
-            return HandRank.ONE_PAIR;
+            return new HandResult(HandRank.ONE_PAIR, returnMainHandRankOrdinals(rankCounts,2), returnKickerHandRankOrdinals(rankCounts,2));
         }
 
-        return HandRank.HIGH_CARD;
+        return new HandResult(HandRank.HIGH_CARD, returnMainHandRankOrdinals(rankCounts,0), returnKickerHandRankOrdinals(rankCounts,0));
     }
 
-    public int determineRankOrdinal(HandRank handRank){
-        return handRank.ordinal();
-    }
-
-    public void determineWinnerWhenSameRank(ArrayList<Card> playerOneHoleCards, ArrayList<Card> playerTwoHoleCards){
-
-    }
 }

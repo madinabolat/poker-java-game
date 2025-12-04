@@ -3,34 +3,30 @@ package org.example.game;
 import org.example.deck.Card;
 import org.example.eval.HandEvaluator;
 import org.example.eval.HandRank;
+import org.example.eval.HandResult;
 import org.example.player.Player;
 
 import java.util.ArrayList;
 
 public class GameEvaluator {
-    public int determinePlayerBestHandRankNumeric(Player player, ArrayList<Card> communityCards){
-        HandEvaluator handEvaluator = new HandEvaluator();
-        return handEvaluator.determineBestRank(communityCards, player.getHoleCards());
-    }
-
     public HandRank determinePlayerBestHandRank(Player player, ArrayList<Card> communityCards){
-        int handRank = determinePlayerBestHandRankNumeric(player, communityCards);
-        HandRank[] handRanks = HandRank.values();
-        return handRanks[handRank];
+
+        HandEvaluator handEvaluator = new HandEvaluator();
+        HandResult playerBestHand = handEvaluator.determineBestHand(communityCards, player.getHoleCards());
+        return playerBestHand.handRank;
     }
 
     public GameResult determineWinner(Player playerOne, Player playerTwo, ArrayList<Card> communityCards) {
-        int playerOneBestRank = determinePlayerBestHandRankNumeric(playerOne, communityCards);
-        int playerTwoBestRank = determinePlayerBestHandRankNumeric(playerTwo, communityCards);
+        HandEvaluator handEvaluator = new HandEvaluator();
+        HandResult playerOneBestHand = handEvaluator.determineBestHand(communityCards, playerOne.getHoleCards());
+        HandResult playerTwoBestHand = handEvaluator.determineBestHand(communityCards, playerTwo.getHoleCards());
 
-        if (playerOneBestRank == playerTwoBestRank) {
-            return new GameResult(GameOutcome.TIE, null);
+        if (playerOneBestHand.isBetterThan(playerTwoBestHand)) {
+            return new GameResult(GameOutcome.WIN, playerOne);
+        } else if (playerTwoBestHand.isBetterThan(playerOneBestHand)) {
+            return new GameResult(GameOutcome.WIN, playerTwo);
         } else {
-            if (playerOneBestRank < playerTwoBestRank) {
-                return new GameResult(GameOutcome.WIN, playerOne);
-            } else {
-                return new GameResult(GameOutcome.WIN, playerTwo);
-            }
+            return new GameResult(GameOutcome.TIE, null);
         }
     }
 }
