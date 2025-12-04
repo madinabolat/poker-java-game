@@ -94,7 +94,7 @@ public class HandEvaluatorTest {
         handCombination.add(new Card(Rank.QUEEN, Suit.HEARTS));
         handCombination.add(new Card(Rank.JACK, Suit.HEARTS));
         handCombination.add(new Card(Rank.TEN, Suit.HEARTS));
-        assertEquals(HandRank.ROYAL_FLUSH, handEvaluator.determineRank(handCombination));
+        assertEquals(HandRank.ROYAL_FLUSH, handEvaluator.determineRank(handCombination).handRank);
     }
 
     @Test
@@ -104,7 +104,7 @@ public class HandEvaluatorTest {
         handCombination.add(new Card(Rank.QUEEN, Suit.DIAMONDS));
         handCombination.add(new Card(Rank.JACK, Suit.HEARTS));
         handCombination.add(new Card(Rank.TEN, Suit.HEARTS));
-        assertNotEquals(HandRank.ROYAL_FLUSH, handEvaluator.determineRank(handCombination));
+        assertNotEquals(HandRank.ROYAL_FLUSH, handEvaluator.determineRank(handCombination).handRank);
     }
 
     @Test
@@ -114,7 +114,7 @@ public class HandEvaluatorTest {
         handCombination.add(new Card(Rank.FIVE, Suit.HEARTS));
         handCombination.add(new Card(Rank.SIX, Suit.HEARTS));
         handCombination.add(new Card(Rank.SEVEN, Suit.HEARTS));
-        assertEquals(HandRank.STRAIGHT_FLUSH, handEvaluator.determineRank(handCombination));
+        assertEquals(HandRank.STRAIGHT_FLUSH, handEvaluator.determineRank(handCombination).handRank);
     }
 
     @Test
@@ -124,7 +124,7 @@ public class HandEvaluatorTest {
         handCombination.add(new Card(Rank.FIVE, Suit.HEARTS));
         handCombination.add(new Card(Rank.SIX, Suit.HEARTS));
         handCombination.add(new Card(Rank.SEVEN, Suit.HEARTS));
-        assertNotEquals(HandRank.STRAIGHT_FLUSH, handEvaluator.determineRank(handCombination));
+        assertNotEquals(HandRank.STRAIGHT_FLUSH, handEvaluator.determineRank(handCombination).handRank);
     }
 
     @Test
@@ -134,7 +134,7 @@ public class HandEvaluatorTest {
         handCombination.add(new Card(Rank.FIVE, Suit.HEARTS));
         handCombination.add(new Card(Rank.SIX, Suit.HEARTS));
         handCombination.add(new Card(Rank.TEN, Suit.HEARTS));
-        assertNotEquals(HandRank.STRAIGHT_FLUSH, handEvaluator.determineRank(handCombination));
+        assertNotEquals(HandRank.STRAIGHT_FLUSH, handEvaluator.determineRank(handCombination).handRank);
     }
 
     @Test
@@ -144,7 +144,7 @@ public class HandEvaluatorTest {
         handCombination.add(new Card(Rank.THREE, Suit.SPADES));
         handCombination.add(new Card(Rank.THREE, Suit.CLUBS));
         handCombination.add(new Card(Rank.TEN, Suit.HEARTS));
-        assertEquals(HandRank.FOUR_OF_A_KIND, handEvaluator.determineRank(handCombination));
+        assertEquals(HandRank.FOUR_OF_A_KIND, handEvaluator.determineRank(handCombination).handRank);
     }
 
     @Test
@@ -154,7 +154,7 @@ public class HandEvaluatorTest {
         handCombination.add(new Card(Rank.TEN, Suit.SPADES));
         handCombination.add(new Card(Rank.THREE, Suit.CLUBS));
         handCombination.add(new Card(Rank.TWO, Suit.HEARTS));
-        assertEquals(HandRank.THREE_OF_A_KIND, handEvaluator.determineRank(handCombination));
+        assertEquals(HandRank.THREE_OF_A_KIND, handEvaluator.determineRank(handCombination).handRank);
     }
 
     @Test
@@ -164,7 +164,7 @@ public class HandEvaluatorTest {
         handCombination.add(new Card(Rank.TWO, Suit.SPADES));
         handCombination.add(new Card(Rank.THREE, Suit.CLUBS));
         handCombination.add(new Card(Rank.TWO, Suit.HEARTS));
-        assertNotEquals(HandRank.THREE_OF_A_KIND, handEvaluator.determineRank(handCombination));
+        assertNotEquals(HandRank.THREE_OF_A_KIND, handEvaluator.determineRank(handCombination).handRank);
     }
 
     @Test
@@ -174,7 +174,7 @@ public class HandEvaluatorTest {
         handCombination.add(new Card(Rank.TWO, Suit.SPADES));
         handCombination.add(new Card(Rank.THREE, Suit.CLUBS));
         handCombination.add(new Card(Rank.TWO, Suit.HEARTS));
-        assertEquals(HandRank.FULL_HOUSE, handEvaluator.determineRank(handCombination));
+        assertEquals(HandRank.FULL_HOUSE, handEvaluator.determineRank(handCombination).handRank);
     }
 
     @Test
@@ -184,7 +184,7 @@ public class HandEvaluatorTest {
         handCombination.add(new Card(Rank.ACE, Suit.HEARTS));
         handCombination.add(new Card(Rank.JACK, Suit.HEARTS));
         handCombination.add(new Card(Rank.QUEEN, Suit.HEARTS));
-        assertEquals(HandRank.FLUSH, handEvaluator.determineRank(handCombination));
+        assertEquals(HandRank.FLUSH, handEvaluator.determineRank(handCombination).handRank);
     }
 
     @Test
@@ -194,7 +194,7 @@ public class HandEvaluatorTest {
         handCombination.add(new Card(Rank.THREE, Suit.SPADES));
         handCombination.add(new Card(Rank.FOUR, Suit.DIAMONDS));
         handCombination.add(new Card(Rank.QUEEN, Suit.HEARTS));
-        assertEquals(HandRank.TWO_PAIR, handEvaluator.determineRank(handCombination));
+        assertEquals(HandRank.TWO_PAIR, handEvaluator.determineRank(handCombination).handRank);
     }
 
     @Test
@@ -204,7 +204,7 @@ public class HandEvaluatorTest {
         handCombination.add(new Card(Rank.ACE, Suit.HEARTS));
         handCombination.add(new Card(Rank.JACK, Suit.HEARTS));
         handCombination.add(new Card(Rank.QUEEN, Suit.HEARTS));
-        assertEquals(HandRank.ONE_PAIR, handEvaluator.determineRank(handCombination));
+        assertEquals(HandRank.ONE_PAIR, handEvaluator.determineRank(handCombination).handRank);
     }
 
     @Test
@@ -214,6 +214,6 @@ public class HandEvaluatorTest {
         handCombination.add(new Card(Rank.ACE, Suit.DIAMONDS));
         handCombination.add(new Card(Rank.JACK, Suit.HEARTS));
         handCombination.add(new Card(Rank.QUEEN, Suit.HEARTS));
-        assertEquals(HandRank.HIGH_CARD, handEvaluator.determineRank(handCombination));
+        assertEquals(HandRank.HIGH_CARD, handEvaluator.determineRank(handCombination).handRank);
     }
 }

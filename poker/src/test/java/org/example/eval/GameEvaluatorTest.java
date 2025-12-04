@@ -13,8 +13,7 @@ import org.junit.jupiter.api.Test;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class GameEvaluatorTest {
     Player playerOne = new Player("Alice");
@@ -30,7 +29,7 @@ public class GameEvaluatorTest {
     }
 
     @Test
-    public void determinesWinnerOnePairBetterKicker(){
+    public void determinesWinnerBothOnePairWithPlayerOneBetterKicker(){
         handCombinationOne.add(new Card(Rank.KING, Suit.SPADES));
         handCombinationOne.add(new Card(Rank.ACE, Suit.HEARTS));
         playerOne.setHoleCards(handCombinationOne);
@@ -53,6 +52,107 @@ public class GameEvaluatorTest {
         assertEquals(GameOutcome.WIN, result.gameOutcome);
         assertEquals(playerOne, result.player);
     }
+
+    @Test
+    public void determinesWinnerOnePairTwoPair(){
+        handCombinationOne.add(new Card(Rank.KING, Suit.SPADES));
+        handCombinationOne.add(new Card(Rank.ACE, Suit.HEARTS));
+        playerOne.setHoleCards(handCombinationOne);
+
+        handCombinationTwo.add(new Card(Rank.KING, Suit.CLUBS));
+        handCombinationTwo.add(new Card(Rank.NINE, Suit.DIAMONDS));
+        playerTwo.setHoleCards(handCombinationTwo);
+
+        ArrayList<Card> communityCards = new ArrayList<>();
+        communityCards.add(new Card(Rank.FIVE, Suit.SPADES));
+        communityCards.add(new Card(Rank.KING, Suit.HEARTS));
+        communityCards.add(new Card(Rank.TWO, Suit.DIAMONDS));
+        communityCards.add(new Card(Rank.SEVEN, Suit.CLUBS));
+        communityCards.add(new Card(Rank.ACE, Suit.SPADES));
+
+        result = evaluator.determineWinner(playerOne, playerTwo, communityCards);
+
+        GameResult expectedResult = new GameResult(GameOutcome.WIN, playerOne);
+
+        assertEquals(GameOutcome.WIN, result.gameOutcome);
+        assertEquals(playerOne, result.player);
+    }
+
+    @Test
+    public void determinesWinnerWhenBothFullHouse(){
+        handCombinationOne.add(new Card(Rank.KING, Suit.SPADES));
+        handCombinationOne.add(new Card(Rank.THREE, Suit.HEARTS));
+        playerOne.setHoleCards(handCombinationOne);
+
+        handCombinationTwo.add(new Card(Rank.ACE, Suit.CLUBS));
+        handCombinationTwo.add(new Card(Rank.THREE, Suit.DIAMONDS));
+        playerTwo.setHoleCards(handCombinationTwo);
+
+        ArrayList<Card> communityCards = new ArrayList<>();
+        communityCards.add(new Card(Rank.ACE, Suit.SPADES));
+        communityCards.add(new Card(Rank.KING, Suit.HEARTS));
+        communityCards.add(new Card(Rank.THREE, Suit.SPADES));
+        communityCards.add(new Card(Rank.THREE, Suit.CLUBS));
+        communityCards.add(new Card(Rank.TEN, Suit.SPADES));
+
+        result = evaluator.determineWinner(playerOne, playerTwo, communityCards);
+
+        GameResult expectedResult = new GameResult(GameOutcome.WIN, playerOne);
+
+        assertEquals(GameOutcome.WIN, result.gameOutcome);
+        assertEquals(playerTwo, result.player);
+    }
+
+    @Test
+    public void determinesWinnerWhenBothStraight(){
+        handCombinationOne.add(new Card(Rank.SIX, Suit.SPADES));
+        handCombinationOne.add(new Card(Rank.SEVEN, Suit.HEARTS));
+        playerOne.setHoleCards(handCombinationOne);
+
+        handCombinationTwo.add(new Card(Rank.JACK, Suit.CLUBS));
+        handCombinationTwo.add(new Card(Rank.ACE, Suit.DIAMONDS));
+        playerTwo.setHoleCards(handCombinationTwo);
+
+        ArrayList<Card> communityCards = new ArrayList<>();
+        communityCards.add(new Card(Rank.NINE, Suit.SPADES));
+        communityCards.add(new Card(Rank.TEN, Suit.HEARTS));
+        communityCards.add(new Card(Rank.QUEEN, Suit.SPADES));
+        communityCards.add(new Card(Rank.KING, Suit.CLUBS));
+        communityCards.add(new Card(Rank.THREE, Suit.SPADES));
+
+        result = evaluator.determineWinner(playerOne, playerTwo, communityCards);
+
+        GameResult expectedResult = new GameResult(GameOutcome.WIN, playerOne);
+
+        assertEquals(GameOutcome.WIN, result.gameOutcome);
+        assertEquals(playerTwo, result.player);
+    }
+
+    @Test
+    public void determinesWinnerWhenOneRoyalFlush(){
+        handCombinationOne.add(new Card(Rank.TEN, Suit.HEARTS));
+        handCombinationOne.add(new Card(Rank.SEVEN, Suit.HEARTS));
+        playerOne.setHoleCards(handCombinationOne);
+
+        handCombinationTwo.add(new Card(Rank.JACK, Suit.CLUBS));
+        handCombinationTwo.add(new Card(Rank.ACE, Suit.DIAMONDS));
+        playerTwo.setHoleCards(handCombinationTwo);
+
+        ArrayList<Card> communityCards = new ArrayList<>();
+        communityCards.add(new Card(Rank.ACE, Suit.HEARTS));
+        communityCards.add(new Card(Rank.KING, Suit.HEARTS));
+        communityCards.add(new Card(Rank.QUEEN, Suit.HEARTS));
+        communityCards.add(new Card(Rank.JACK, Suit.HEARTS));
+        communityCards.add(new Card(Rank.THREE, Suit.SPADES));
+
+        result = evaluator.determineWinner(playerOne, playerTwo, communityCards);
+
+        GameResult expectedResult = new GameResult(GameOutcome.WIN, playerOne);
+
+        assertEquals(GameOutcome.WIN, result.gameOutcome);
+        assertEquals(playerOne, result.player);
+    }
+
 
 
 
